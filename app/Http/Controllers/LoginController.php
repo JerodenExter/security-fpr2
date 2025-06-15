@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    /**
+     * Handle a user registration request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $credentials = $request->validate([

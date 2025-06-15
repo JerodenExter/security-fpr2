@@ -19,8 +19,16 @@
     @csrf
     <label>Naam: <input type="text" name="name" required></label><br>
     <label>Email: <input type="email" name="email" required></label><br>
-    <label>Wachtwoord: <input type="password" name="password" required></label><br>
+    <div>
+        <label for="password">Wachtwoord</label>
+        <input type="password" name="password" id="password" required>
+    </div>
+    <div>
+        <label for="password_confirmation">Bevestig Wachtwoord</label>
+        <input type="password" name="password_confirmation" id="password_confirmation" required>
+    </div>
     <button type="submit">Maak je account aan</button>
 </form>
+<small>Tip: Gebruik een wachtwoordmanager om sterke en unieke wachtwoorden te bewaren.</small>
 </body>
 </html>
