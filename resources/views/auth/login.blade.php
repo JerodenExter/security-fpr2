@@ -31,5 +31,6 @@
 
     <button type="submit">Inloggen</button>
 </form>
+<small>Tip: Gebruik een wachtwoordmanager om sterke en unieke wachtwoorden te bewaren.</small>
 </body>
 </html>

@@ -5,15 +5,20 @@ use App\Http\Controllers\ProductOrderController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Article;
-use App\Http\Controllers\RegisterController;
 
+// Register pagina
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
-Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+// Register verwerking met throttling
+Route::post('/register', [RegisterController::class, 'store'])
+    ->middleware('throttle:3,5')  // max 3 requests per 5 minuten
+    ->name('register.store');
 
 // Homepagina
 Route::get('/', function () {
@@ -36,8 +41,10 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-// Login verwerking
-Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+// Login verwerking met throttling
+Route::post('/login', [LoginController::class, 'store'])
+    ->middleware('throttle:5,1')  // max 5 requests per minuut
+    ->name('login.store');
 
 // Logout
 Route::post('/logout', function (\Illuminate\Http\Request $request) {
@@ -47,3 +54,11 @@ Route::post('/logout', function (\Illuminate\Http\Request $request) {
 
     return redirect('/');
 })->name('logout');
+
+// Password reset routes
+Route::controller(PasswordResetController::class)->group(function () {
+    Route::get('/forgot-password', 'showLinkRequestForm')->name('password.request');
+    Route::post('/forgot-password', 'sendResetLinkEmail')->name('password.email');
+    Route::get('/reset-password/{token}', 'showResetForm')->name('password.reset');
+    Route::post('/reset-password', 'reset')->name('password.update');
+});
